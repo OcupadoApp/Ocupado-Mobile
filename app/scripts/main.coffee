@@ -22,6 +22,6 @@ window.Ocupado = _.extend
 
 $ ->
   'use strict'
-  Ocupado.init();
+  Ocupado.init()
   window.addEventListener 'load', ->
     FastClick.attach(document.body)

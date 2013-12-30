@@ -9,10 +9,6 @@ class Ocupado.Views.RoomView extends Backbone.View
   initialize: ->
     @listenTo @model, 'update', @render
     @render()
-    _.defer =>
-      @roomArcView = new Ocupado.Views.RoomArcView
-        parentView: this
-        model: @model
 
     setInterval =>
       @partialRender()
@@ -20,11 +16,8 @@ class Ocupado.Views.RoomView extends Backbone.View
 
   partialRender: ->
     @$el.find('.time-remaining').text(@timeRemaining())
-    @roomArcView.render()
 
   render: ->
-    @roomArcView.clearPolarClock() if @roomArcView?
-
     @$el.html @template(@templateData())
     @$el.prop('class', '')
     if @model.isOccupied()
@@ -33,11 +26,10 @@ class Ocupado.Views.RoomView extends Backbone.View
       @$el.addClass('upcoming')
     else
       @$el.addClass('vacant')
-
-    @resizeContainers()
-
-    @roomArcView.render() if @roomArcView?
-
+    if Ocupado.scroller?
+      setTimeout ->
+        Ocupado.scroller.refresh()
+      , 0
     @
 
   templateData: ->
@@ -54,17 +46,4 @@ class Ocupado.Views.RoomView extends Backbone.View
       toReadableTime(remaining)
     else
       '00:00:00'
-
-  resizeContainers: ->
-    w = @$el.width()
-
-    if w < 340
-      @$el.addClass 'small'
-      @roomArcView.strokeWidth = 5 if @roomArcView?
-    else
-      @$el.removeClass 'small'
-
-    st = @$el.find('.room-status-text')
-    p = st.siblings('.polar-clock')
-    @$el.find('.room-status-text').css('top', "#{p.width()/2 - st.height()/2}px")
 
