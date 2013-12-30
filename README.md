@@ -1,9 +1,8 @@
-# Ocupado
+# Ocupado Mobile
 
 ### About
-This project was initially intended to be a simple meeting room status display to visualize which rooms were free, time remaining until the next booking, and time remaining in an occurring meeting, based off the Google Calendar API. This was designed by @luccast and developed by @gavinsmith and myself (@richgilbank).
-
-The first version was hacked together in 2 days in CoffeeScript using [Middleman](http://middlemanapp.com/), with HTML5 Canvas for the animated polar clock/time remaining indicator. The code was hideous, non-testable and non-maintainable, so I put this version together as a Christmas hobby project.
+This is a fork of [Ocupado](https://github.com/richgilbank/Ocupado) intended to be built with Phonegap for mobile devices to allow them to book rooms.
+More info is available there.
 
 ### Stack
  - [Backbone](http://backbonejs.org/)
@@ -26,10 +25,3 @@ To run it, you must have Node.js installed on your system. `cd` into the directo
 
 `grunt build` compiles the app into the `dist` directory.
 
-### Screens
-![Screenshot 1][1]
-![Screenshot 2][2]
-
-
-  [1]: http://cl.ly/image/3L072Q1W1K1z/Screen%20Shot%202013-12-29%20at%204.25.37%20PM.png
-  [2]: http://cl.ly/image/0W0j200o1p3y/Screen%20Shot%202013-12-29%20at%204.25.59%20PM.png
