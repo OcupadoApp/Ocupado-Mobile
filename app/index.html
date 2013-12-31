@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Ocupado</title>
   <meta name="description" content="">
-  <meta name="viewport" content="width=device-width">
+  <meta name="viewport" content="width=device-width, user-scalable=no">
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
@@ -19,6 +19,10 @@
 
 
   <button id="authorizeButton" style="display: none;">Auth me!</button>
+
+  <nav>
+    <ul></ul>
+  </nav>
   <div id="OcupadoWrapper">
     <div id="OcupadoApp"></div>
   </div>
@@ -54,6 +58,7 @@
   <script src="scripts/models/calendar.js"></script>
   <script src="scripts/collections/calendars.js"></script>
   <script src="scripts/views/chrome.js"></script>
+  <script src="scripts/views/roomsNav.js"></script>
   <!-- endbuild -->
 
   <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>

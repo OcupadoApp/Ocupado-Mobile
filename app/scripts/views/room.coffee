@@ -19,13 +19,16 @@ class Ocupado.Views.RoomView extends Backbone.View
 
   render: ->
     @$el.html @template(@templateData())
+    @$el.css
+      'min-width': ($(window).width() - 40) + 'px'
     @$el.prop('class', '')
     if @model.isOccupied()
       @$el.addClass('occupied')
     else if @model.isUpcoming()
       @$el.addClass('upcoming')
     else
-      @$el.addClass('vacant')
+    @$el.addClass('vacant')
+
     if Ocupado.scroller?
       setTimeout ->
         Ocupado.scroller.refresh()
@@ -46,4 +49,7 @@ class Ocupado.Views.RoomView extends Backbone.View
       toReadableTime(remaining)
     else
       '00:00:00'
+
+  attributes: ->
+    'data-calendarid': @model.get('calendarId')
 

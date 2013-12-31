@@ -14,18 +14,29 @@ class Ocupado.Views.RoomsView extends Backbone.View
     Handlebars.registerPartial('upcoming', Ocupado.Templates.upcoming)
     Handlebars.registerPartial('vacant', Ocupado.Templates.vacant)
 
+    @navView = new Ocupado.Views.RoomsNavView
+      collection: @collection
+
   addRoom: (room) ->
     roomView = new Ocupado.Views.RoomView
       model: room
       parentView: this
     @$el.append roomView.render().el
     if not Ocupado.scroller?
-      Ocupado.scroller = new IScroll document.getElementById('OcupadoWrapper'),
-        scrollX: true
-        snap: 'section'
+      setTimeout ->
+        Ocupado.scroller = new IScroll document.getElementById('OcupadoWrapper'),
+          scrollX: true
+          snap: 'section'
+          momentum: false
+          indicators: [
+            el: $('nav').get(0)
+            resize: false
+            ignoreBoundaries: true
+            speedRatioX: 0.5
+          ]
+      , 0
 
   resetRooms: (rooms) ->
     @$el.html('')
     @collection.each @addRoom, @
-    console.log 'set'
 
