@@ -28,12 +28,14 @@ class Ocupado.Views.RoomsView extends Backbone.View
           scrollX: true
           snap: 'section'
           momentum: false
+          click: true
           probeType: 3
         Ocupado.navScroller = new IScroll $('nav').get(0),
           scrollX: true
           click: true
         ctx = this
         Ocupado.scroller.on 'scroll', -> ctx.navView.scrollTo @x/2
+        Ocupado.scroller.on 'scrollEnd', -> ctx.navView.scrollTo @x/2
       , 0
 
   resetRooms: (rooms) ->

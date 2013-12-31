@@ -9,6 +9,7 @@ class Ocupado.Views.RoomView extends Backbone.View
   initialize: ->
     @listenTo @model, 'update', @render
     @render()
+    @$el.on 'click', '.book-room-icon', @openNewEvent
 
     setInterval =>
       @partialRender()
@@ -21,13 +22,14 @@ class Ocupado.Views.RoomView extends Backbone.View
     @$el.html @template(@templateData())
     @$el.css
       'min-width': ($(window).width() - 40) + 'px'
+
     @$el.prop('class', '')
     if @model.isOccupied()
       @$el.addClass('occupied')
     else if @model.isUpcoming()
       @$el.addClass('upcoming')
     else
-    @$el.addClass('vacant')
+      @$el.addClass('vacant')
 
     if Ocupado.scroller?
       setTimeout ->
@@ -52,4 +54,15 @@ class Ocupado.Views.RoomView extends Backbone.View
 
   attributes: ->
     'data-calendarid': @model.get('calendarId')
+
+  openNewEvent: =>
+    # Unbind and rebind due to bug in iScroll
+    @$el.off 'click', '.book-room-icon', @openNewEvent
+    _.defer =>
+      @$el.on 'click', '.book-room-icon', @openNewEvent
+
+    $('#OcupadoChrome').append $('<div></div>')
+    newEventDialog = new Ocupado.Views.NewEventDialogView
+      model: @model
+      el: $('#OcupadoChrome div:last')
 

@@ -16,14 +16,15 @@ window.Ocupado.Auth =
     authBtn = $('#authorizeButton')
     if authResult and not authResult.error
       # Success
-      $(authBtn).hide()
+      authBtn.hide()
       Ocupado.trigger 'ocupado:auth:success'
       Ocupado.Auth.isAuthenticated = true
       gapi.client.load 'calendar', 'v3', Ocupado.Auth.calendarAPILoaded
     else
       # Auth failed
-      $(authBtn).show()
-      $(authBtn).click Ocupado.Auth.handleAuthClick
+      authBtn.show()
+      authBtn.on 'click', ->
+        Ocupado.Auth.handleAuthClick()
       Ocupado.trigger 'ocupado:auth:failure'
       Ocupado.Auth.isAuthenticated = false
 

@@ -13,17 +13,27 @@ h1
   text-transform uppercase
   font-size 68px
   text-align center
-  margin-top 64px
+  margin: 20px 0
+  padding 0 20px
+  font-size 50px
+  max-height 170px
+  overflow hidden
 
 img
-  width 110px
-  height 110px
+  width 80px
+  height 80px
   border-radius 50%
-  position absolute
+  position relative
   z-index 10
   left 50%
-  margin-left -55px
-  margin-top -45px
+  margin-left -40px
+  margin-top 10px
+
+.group-bottom
+  position absolute
+  bottom 0
+  width 100%
+  padding-bottom 30px
 
 #calendarMenuBtn
   position absolute
@@ -43,29 +53,20 @@ img
 
 .time-remaining
   font-size 51px
-  text-align center
-  margin-top -3px
-
-.polar-clock-container
-  position absolute
-  width 100%
-  height 50%
-  bottom 0
-  padding 0 50px 70px 50px
-  box-sizing border-box
+  margin-top 0
+  width 200px
+  position relative
+  left 50%
+  margin-left -100px
 
 .room-status-text
-  position absolute
+  position relative
   left 0
   margin-bottom 0
   font-size 43px
   text-align center
   width 100%
   text-shadow 0 -2px rgba(0,0,0,0.3)
-
-.polar-clock
-  width 100%
-  height 100%
 
 #OcupadoApp
   position absolute
@@ -75,6 +76,8 @@ img
   -webkit-box-orient horizontal
   box-orient horizontal
   overflow hidden
+  top 0
+  padding-top 62px
 
   section
     top 0
@@ -83,24 +86,8 @@ img
     border-left 1px solid #000
     -webkit-box-flex 1
     box-flex 1
+    position relative
 
     &:first-child
       border-left none
-
-    &.small
-      h1
-        font-size 48px
-        margin-top 10px
-        margin-bottom 20px
-      .room-status-text
-        font-size 30px
-      img.creator-image
-        width 70px
-        height 70px
-        margin-left -35px
-        margin-top -25px
-      .time-remaining
-        font-size 31px
-      .icon-clock
-        margin-top 10px
 

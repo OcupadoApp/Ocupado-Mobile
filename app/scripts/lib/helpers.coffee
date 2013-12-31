@@ -24,6 +24,14 @@ Date.prototype.subtractHours = (h) ->
   @setHours @getHours() - h
   this
 
+Date.prototype.addMinutes = (m) ->
+  @setMinutes @getMinutes() + m
+  this
+
+Date.prototype.subtractMinutes = (m) ->
+  @setMinutes @getMinutes() - m
+  this
+
 Date.prototype.addMilliseconds = (s) ->
   @setMilliseconds @getMilliseconds() + s
   this

@@ -12,6 +12,7 @@ class Ocupado.Views.CalendarSelectionModalView extends Backbone.View
     # console.log @$el.find('.checkbox-group').get(0)
     cb = @updateSortOrder
     new Sortable @$el.find('.checkbox-group').get(0),
+      handle: '.draggable-handle'
       onUpdate: (e) =>
         @updateSortOrder(e)
     @$el.on 'click', '.close-modal', @close
