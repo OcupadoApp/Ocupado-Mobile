@@ -13,7 +13,6 @@ class Ocupado.Views.RoomsNavView extends Backbone.View
   onNavClick: (e) ->
     e.preventDefault()
     cid = $(this).data('calendarid')
-    console.log 'here', cid
     Ocupado.scroller.scrollToElement $("section[data-calendarid='#{cid}']").get(0)
 
   render: ->
@@ -26,6 +25,10 @@ class Ocupado.Views.RoomsNavView extends Backbone.View
       listItems = @$el.find('li')
       @$el.find('li').on 'click', @onNavClick
       listItems.css('width', itemWidth + 'px')
-      @$el.css('width', (itemWidth * listItems.length) + 'px')
+      listWidth = itemWidth * listItems.length
+      @$el.css('width', listWidth + 'px')
     @
+
+  scrollTo: (x) ->
+    Ocupado.navScroller.scrollTo x, 0
 

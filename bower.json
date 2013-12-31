@@ -10,7 +10,7 @@
     "backbone-relational": "~0.8.6",
     "raphael": "~2.1.2",
     "fastclick": "~0.6.10",
-    "iscroll": "~5.0.9"
+    "iscroll": "git@github.com:richgilbank/iscroll.git#~5.0.9"
   },
   "devDependencies": {}
 }

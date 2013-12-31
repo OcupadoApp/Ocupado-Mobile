@@ -23,17 +23,17 @@ class Ocupado.Views.RoomsView extends Backbone.View
       parentView: this
     @$el.append roomView.render().el
     if not Ocupado.scroller?
-      setTimeout ->
+      setTimeout =>
         Ocupado.scroller = new IScroll document.getElementById('OcupadoWrapper'),
           scrollX: true
           snap: 'section'
           momentum: false
-          indicators: [
-            el: $('nav').get(0)
-            resize: false
-            ignoreBoundaries: true
-            speedRatioX: 0.5
-          ]
+          probeType: 3
+        Ocupado.navScroller = new IScroll $('nav').get(0),
+          scrollX: true
+          click: true
+        ctx = this
+        Ocupado.scroller.on 'scroll', -> ctx.navView.scrollTo @x/2
       , 0
 
   resetRooms: (rooms) ->
