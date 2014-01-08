@@ -42,7 +42,7 @@ class Ocupado.Views.CalendarSelectionModalView extends Backbone.View
         @unbind()
 
   updateSortOrder: (e) ->
-    sorted = _.map @$el.find('input[type="checkbox"]'), (e) ->
+    sorted = _.map @$el.find('input[type="checkbox"]:checked'), (e) ->
       $(e).data('resourceid')
     Ocupado.calendars.setSelectedResources(sorted)
     Ocupado.roomsView.collection.reset()

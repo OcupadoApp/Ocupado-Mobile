@@ -290,6 +290,7 @@ module.exports = function (grunt) {
             // 'watch:livereload',
             // 'watch:jst',
             // 'watch:stylus'
+            // TODO: https://github.com/gruntjs/grunt-contrib-watch/issues/206
         ]);
 
     });
