@@ -15,7 +15,7 @@ module.exports = function (grunt) {
     // configurable paths
     var yeomanConfig = {
         app: 'app',
-        dist: 'dist'
+        dist: 'dist/www'
     };
 
     grunt.initConfig({
@@ -226,6 +226,9 @@ module.exports = function (grunt) {
                         'images/{,*/}*.{webp,gif}',
                         'fonts/{,*/}*.*',
                     ]
+                },{
+                    dest: '<%= yeoman.dist %>/config.xml',
+                    src: ['dist/config.xml']
                 }]
             }
         },
