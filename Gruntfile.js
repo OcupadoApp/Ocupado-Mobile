@@ -184,11 +184,19 @@ module.exports = function (grunt) {
         },
         uglify: {
             dist: {
+                files: [{
+                    expand: true,
+                    cwd: '<%= yeoman.dist %>/scripts',
+                    src: '**/*.js',
+                    dest: '<%= yeoman.dist %>/scripts/'
+                }]
+            },
+            env: {
                 options: {
                     banner: "window._ENV='production';"
                 },
                 files: {
-                    'dist/scripts/main.js': ['dist/scripts/main.js']
+                    '<%= yeoman.dist %>/scripts/main.js': ['<%= yeoman.dist %>/scripts/main.js']
                 }
             }
         },
@@ -275,6 +283,17 @@ module.exports = function (grunt) {
                     ]
                 }
             }
+        },
+        shell: {
+            cordova: {
+                command: 'cordova build && cordova run',
+                options: {
+                    stdout: true,
+                    execOptions: {
+                        cwd: '<%= yeoman.dist %>'
+                    }
+                }
+            }
         }
     });
 
@@ -328,10 +347,12 @@ module.exports = function (grunt) {
         'htmlmin',
         'concat',
         'stylus:compile',
-        'uglify',
+        'uglify:dist',
+        'uglify:env',
         'copy',
         'rev',
-        'usemin'
+        'usemin',
+        'shell:cordova'
     ]);
 
     grunt.registerTask('default', [
