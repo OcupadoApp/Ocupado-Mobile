@@ -6,3 +6,8 @@ app/bower_components
 .tmp
 test/bower_components/
 test/spec
+
+dist/platforms/android/bin
+dist/platforms/android/gen
+dist/platforms/android/CordovaLib/bin
+dist/platforms/android/CordovaLib/gen
