@@ -17,12 +17,13 @@ window.Ocupado = _.extend
     Ocupado.roomsView = new @Views.RoomsView
       collection: new @Collections.RoomsCollection()
     Ocupado.chromeView = new @Views.ChromeView()
+    window.addEventListener 'load', ->
+      FastClick.attach(document.body)
 
 , Backbone.Events
 
 
-$ ->
-  'use strict'
-  Ocupado.init()
-  window.addEventListener 'load', ->
-    FastClick.attach(document.body)
+if Ocupado.env is 'production'
+  document.addEventListener 'deviceready', Ocupado.init
+else
+  $ -> Ocupado.init()
