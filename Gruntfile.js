@@ -184,6 +184,9 @@ module.exports = function (grunt) {
         },
         uglify: {
             dist: {
+                options: {
+                    mangle: false
+                },
                 files: [{
                     expand: true,
                     cwd: '<%= yeoman.dist %>/scripts',
@@ -285,8 +288,17 @@ module.exports = function (grunt) {
             }
         },
         shell: {
-            cordova: {
-                command: 'cordova build && cordova run',
+            android: {
+                command: 'cordova run android',
+                options: {
+                    stdout: true,
+                    execOptions: {
+                        cwd: '<%= yeoman.dist %>'
+                    }
+                }
+            },
+            ios: {
+                command: 'cordova emulate ios',
                 options: {
                     stdout: true,
                     execOptions: {
@@ -352,7 +364,7 @@ module.exports = function (grunt) {
         'copy',
         'rev',
         'usemin',
-        'shell:cordova'
+        'shell:ios'
     ]);
 
     grunt.registerTask('default', [

@@ -13,17 +13,24 @@ window.Ocupado = _.extend
   Routers: {}
   init: ->
     'use strict'
-    Ocupado.calendars = new @Collections.CalendarCollection()
-    Ocupado.roomsView = new @Views.RoomsView
-      collection: new @Collections.RoomsCollection()
-    Ocupado.chromeView = new @Views.ChromeView()
-    window.addEventListener 'load', ->
-      FastClick.attach(document.body)
+    console.log 'in init', gapi
+    # Ocupado.calendars = new @Collections.CalendarCollection()
+    # Ocupado.roomsView = new @Views.RoomsView
+    #   collection: new @Collections.RoomsCollection()
+    # Ocupado.chromeView = new @Views.ChromeView()
+    # window.addEventListener 'load', ->
+    #   FastClick.attach(document.body)
 
 , Backbone.Events
 
 
 if Ocupado.env is 'production'
-  document.addEventListener 'deviceready', Ocupado.init
+  $ ->
+    window.clientLoaded = $.Deferred()
+    window.deviceReady = $.Deferred()
+
+    $.when([clientLoaded.promise(), deviceReady.promise()]).then(Ocupado.init())
+    document.addEventHandler 'deviceready', ->
+      deviceReady.resolve()
 else
   $ -> Ocupado.init()
