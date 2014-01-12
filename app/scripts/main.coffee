@@ -1,3 +1,5 @@
+window.deviceReady = $.Deferred()
+
 window.Ocupado = _.extend
   env: if _ENV? then _ENV else 'development'
   config:
@@ -13,22 +15,18 @@ window.Ocupado = _.extend
   Routers: {}
   init: ->
     'use strict'
-    console.log 'in init', gapi
-    # Ocupado.calendars = new @Collections.CalendarCollection()
-    # Ocupado.roomsView = new @Views.RoomsView
-    #   collection: new @Collections.RoomsCollection()
-    # Ocupado.chromeView = new @Views.ChromeView()
-    # window.addEventListener 'load', ->
-    #   FastClick.attach(document.body)
+    Ocupado.calendars = new @Collections.CalendarCollection()
+    Ocupado.roomsView = new @Views.RoomsView
+      collection: new @Collections.RoomsCollection()
+    Ocupado.chromeView = new @Views.ChromeView()
+    window.addEventListener 'load', ->
+      FastClick.attach(document.body)
 
 , Backbone.Events
 
 
 if Ocupado.env is 'production'
   $ ->
-    window.clientLoaded = $.Deferred()
-    window.deviceReady = $.Deferred()
-
     $.when([clientLoaded.promise(), deviceReady.promise()]).then(Ocupado.init())
     document.addEventHandler 'deviceready', ->
       deviceReady.resolve()
