@@ -350,22 +350,24 @@ module.exports = function (grunt) {
         ]);
     });
 
-    grunt.registerTask('build', [
-        'clean:dist',
-        'coffee',
-        'handlebars',
-        'useminPrepare',
-        'imagemin',
-        'htmlmin',
-        'concat',
-        'stylus:compile',
-        'uglify:dist',
-        'uglify:env',
-        'copy',
-        'rev',
-        'usemin',
-        'shell:ios'
-    ]);
+    grunt.registerTask('build', function(target){
+        grunt.task.run([
+            'clean:dist',
+            'coffee',
+            'handlebars',
+            'useminPrepare',
+            'imagemin',
+            'htmlmin',
+            'concat',
+            'stylus:compile',
+            'uglify:dist',
+            'uglify:env',
+            'copy',
+            'rev',
+            'usemin',
+            target ? 'shell:' + target : 'shell:android'
+        ]);
+    });
 
     grunt.registerTask('default', [
         'jshint',
