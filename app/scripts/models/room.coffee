@@ -20,13 +20,14 @@ class Ocupado.Models.RoomModel extends Backbone.RelationalModel
   ]
 
   initialize: ->
-    @fetch() unless @get('unAuthenticated')
-    @collection.on 'fetchAll', @fetch, @
+    unless @get('unAuthenticated')
+      @fetch()
+      @collection.on 'fetchAll', @fetch, @
 
-    # Refetch every 10 minutes
+    # Refetch every 2 minutes
     setInterval =>
       @fetch.call(this)
-    , 10 * 60 * 1000
+    , 2 * 60 * 1000
     @
 
   fetch: (options) ->

@@ -5,26 +5,36 @@ window.handleClientLoad = ->
   clientLoaded.resolve()
 
 $ ->
-  $.when(clientLoaded.promise(), deviceReady.promise()).then ->
-    if Ocupado.Auth.tokenIsAvailable()
-      $('#authorizeButton').hide()
-      dfd = Ocupado.Auth.getToken()
-      dfd.done (token) ->
-        Ocupado.Auth.setToken token
-      gapi.client.load 'calendar', 'v3', Ocupado.Auth.calendarLoaded
-    else
-      $('#authorizeButton').show().on 'click', ->
-        Ocupado.Auth.authorize
-          client_id: Ocupado.config.clientId
-          client_secret: Ocupado.config.clientSecret
-          redirect_uri: 'http://localhost'
-          scope: Ocupado.config.scope
-        .done (token) ->
-          $('#authorizeButton').hide()
-          Ocupado.Auth.setToken token
+  if Ocupado.env is 'production'
+    $.when(clientLoaded.promise(), deviceReady.promise()).then ->
+      if Ocupado.Auth.tokenIsAvailable()
+        $('#authorizeButton').hide()
+        dfd = Ocupado.Auth.getToken()
+        dfd.done (token) ->
           gapi.client.load 'calendar', 'v3', Ocupado.Auth.calendarLoaded
-        .fail (data) ->
-          alert 'Auth failed'
+      else
+        $('#authorizeButton').show().on 'click', ->
+          Ocupado.Auth.authorize
+            client_id: Ocupado.config.clientId
+            client_secret: Ocupado.config.clientSecret
+            redirect_uri: Ocupado.config.redirectUri
+            scope: Ocupado.config.scope
+          .done (token) ->
+            $('#authorizeButton').hide()
+            Ocupado.Auth.setToken token
+            gapi.client.load 'calendar', 'v3', Ocupado.Auth.calendarLoaded
+          .fail (data) ->
+            alert 'Auth failed'
+      # Get a new token every 45 minutes
+      setInterval Ocupado.Auth.getToken, 45 * 60 * 1000
+  else
+    $.when(clientLoaded.promise()).then ->
+      gapi.client.setApiKey Ocupado.config.webApiKey
+      setTimeout Ocupado.Auth.checkAuth, 1
+
+    # Refresh the token every 45 mins
+    setInterval Ocupado.Auth.checkAuth, 45 * 60 * 1000
+
 
 window.Ocupado.Auth =
   authorize: (options) ->
@@ -64,11 +74,37 @@ window.Ocupado.Auth =
     deferred.promise()
 
   checkAuth: ->
-    localStorage.access_token? && localStorage.refresh_token?
+    if Ocupado.env is 'production'
+      localStorage.access_token? && localStorage.refresh_token?
+    else
+      gapi.auth.authorize
+        client_id: Ocupado.config.webClientId
+        scope: Ocupado.config.scope
+        immediate: true
+      , Ocupado.Auth.handleAuthResult
 
   calendarLoaded: ->
     calendarApiLoaded.resolve()
     Ocupado.trigger 'ocupado:auth:calendarloaded'
+
+  handleAuthResult: (authResult) ->
+    authBtn = $('#authorizeButton')
+    if authResult and not authResult.error
+      #Success
+      $(authBtn).hide()
+      Ocupado.trigger 'ocupado:auth:success'
+      gapi.client.load 'calendar', 'v3', Ocupado.Auth.calendarLoaded
+    else
+      $(authBtn).show().click Ocupado.Auth.handleAuthClick
+      Ocupado.trigger 'ocupado:auth:failure'
+
+  handleAuthClick: ->
+    gapi.auth.authorize
+      client_id: Ocupado.config.webClientId
+      scope: Ocupado.config.scope
+      immediate: false
+    , Ocupado.Auth.handleAuthResult
+    false
 
   setToken: (token) ->
     gapi.auth.setToken token
@@ -87,7 +123,9 @@ window.Ocupado.Auth =
     dfd = $.Deferred()
     now = new Date().getTime()
 
-    if now < localStorage.expires_at
+    if now < localStorage.expires_at - (45 * 60 * 1000)
+      gapi.auth.setToken
+        access_token: localStorage.access_token
       dfd.resolve
         access_token: localStorage.access_token
     else if localStorage.refresh_token
@@ -103,5 +141,7 @@ window.Ocupado.Auth =
         dfd.reject(response.responseJSON)
     else
       dfd.reject()
+    $.when(dfd.promise()).then Ocupado.fetch
     dfd.promise()
+
 
